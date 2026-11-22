@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Проверка конфликта интересов — личный таможенный досмотр</title>
+    <meta name="description"
+        content="Сервис проверки поручения на личный таможенный досмотр на наличие конфликта интересов между должностным лицом и проверяемым лицом.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <a class="skip-link" href="#main">Перейти к содержанию</a>
+
+    <header class="site-header">
+        <div class="container header-row">
+            <a class="brand" href="#main">
+                <img class="brand-logo"
+                    src="https://customs.gov.ru/assets/frontend/images/small-logo.svg"
+                    alt="Федеральная таможенная служба" height="46">
+
+                <span class="brand-text">
+                    <span class="brand-title">Федеральная таможенная служба</span>
+                    <span class="brand-subtitle">Аналитический сервис выявления конфликта интересов</span>
+                </span>
+            </a>
+
+            <nav class="header-nav" aria-label="Основная навигация">
+                
+                <a class="nav-link" href="/admin/" target="_blank" rel="noopener">Управление базой ДЛТО</a>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container hero-inner">
+            <div class="hero-text">
+                <h1>Проверка поручения на личный таможенный досмотр</h1>
+            </div>
+            <dl class="hero-meta">
+                <div>
+                    <dt>Набор правил</dt>
+                    <dd id="ruleVersion">rules_v1.0.0</dd>
+                </div>
+                <div>
+                    <dt>Режим</dt>
+                    <dd>Демонстрационный</dd>
+                </div>
+            </dl>
+        </div>
+    </section>
+
+    <main id="main" class="container page">
+        <section class="card card-shift" id="shift" aria-labelledby="shift-title">
+            <h2 class="card-title" id="shift-title">Смена</h2>
+
+            <div class="shift-row">
+                <p class="shift-status" id="shiftStatus">
+                    Смена не начата. Нажмите «Начать смену» — из реестра случайно
+                    выберутся четыре должностных лица, заступающие на смену.
+                </p>
+                <button class="btn btn-primary btn-small" id="shiftBtn" type="button">
+                    Начать смену
+                </button>
+            </div>
+
+            <div id="shiftBody"></div>
+        </section>
+
+        <div class="layout">
+            <section class="card" id="check" aria-labelledby="check-title">
+                <h2 class="card-title" id="check-title">Данные для проверки</h2>
+
+                <form id="form" novalidate>
+                    <fieldset class="field-group">
+                        <legend>Должностное лицо, назначенное на досмотр</legend>
+
+                        <div class="field">
+                            <label for="dltoPassport">Серия и номер паспорта</label>
+                            <input id="dltoPassport" name="dlto_passport" inputmode="numeric" autocomplete="off"
+                                placeholder="0000 000000">
+                        </div>
+
+                        <div class="field">
+                            <label for="dltoFio">Фамилия, имя, отчество</label>
+                            <input id="dltoFio" name="dlto_fio" autocomplete="off" placeholder="ФАМИЛИЯ ИМЯ ОТЧЕСТВО">
+                        </div>
+                    </fieldset>
+
+                    <fieldset class="field-group">
+                        <legend>Проверяемое лицо</legend>
+
+                        <div class="field">
+                            <label for="personPassport">Серия и номер паспорта</label>
+                            <input id="personPassport" name="person_passport" inputmode="numeric" autocomplete="off"
+                                placeholder="0000 000000">
+                        </div>
+
+                        <div class="field">
+                            <label for="personFio">Фамилия, имя, отчество</label>
+                            <input id="personFio" name="person_fio" autocomplete="off"
+                                placeholder="ФАМИЛИЯ ИМЯ ОТЧЕСТВО">
+                        </div>
+
+                        <div class="field">
+                            <label for="personAddress">Адрес регистрации</label>
+                            <input id="personAddress" name="person_address" autocomplete="off"
+                                placeholder="город, улица, дом, квартира">
+                            <p class="field-hint">
+                                Адрес используется только для сверки записи в реестре и не сохраняется
+                                в журнале проверок.
+                            </p>
+                        </div>
+                    </fieldset>
+
+                    <div class="actions">
+                        <button class="btn btn-primary" id="checkBtn" type="submit">
+                            <span class="btn-text">Проверить поручение</span>
+                            <span class="btn-progress" hidden>Проверка…</span>
+                        </button>
+                        <button class="btn btn-secondary" id="exampleBtn" type="button">
+                            Заполнить примером
+                        </button>
+                    </div>
+
+                    <p class="form-note">
+                        Отсутствие сведений не означает отсутствие конфликта интересов.
+                    </p>
+                </form>
+            </section>
+
+            <section class="card card-result" aria-labelledby="result-title">
+                <h2 class="card-title" id="result-title">Результат проверки</h2>
+
+                <div id="result" aria-live="polite">
+                    <div class="state state-empty">
+                        <p class="state-title">Проверка не выполнялась</p>
+                        <p class="state-text">
+                            Заполните сведения о должностном лице и проверяемом лице либо
+                            воспользуйтесь демонстрационным примером.
+                        </p>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-row">
+            <p>
+                Сервис носит информационный характер. Все решения принимает уполномоченное должностное лицо таможенного органа.
+            </p>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
