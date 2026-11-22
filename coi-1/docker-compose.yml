@@ -1,0 +1,30 @@
+# docker-compose.yml
+
+services:
+  coi:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      AIS_TOKEN: "${AIS_TOKEN:-dev-token}"
+      COI_ADDR: ":8080"
+      COI_DB: "/app/var/coi.db"
+      COI_DATA: "/app/data/dataset.json"
+      COI_DLTOS: "/app/data/dltos.json"
+      COI_RULES: "rules_v1.0.0"
+      COI_ADMIN_USER: "${COI_ADMIN_USER:-admin}"
+      COI_ADMIN_PASSWORD: "${COI_ADMIN_PASSWORD:-123}"
+    volumes:
+      - coi-var:/app/var
+      # Реестр должностных лиц правится через /admin — данные должны переживать
+      # пересоздание контейнера, иначе правки пропадут вместе с образом.
+      - ./data:/app/data
+    healthcheck:
+      test: [ "CMD", "wget", "-qO-", "http://localhost:8080/healthz" ]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+    restart: unless-stopped
+
+volumes:
+  coi-var:
