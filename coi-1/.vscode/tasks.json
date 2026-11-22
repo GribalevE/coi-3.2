@@ -1,0 +1,66 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "coi: build",
+      "type": "shell",
+      "command": "go",
+      "args": ["build", "-trimpath", "-o", "bin/coi.exe", "./cmd/server"],
+      "group": { "kind": "build", "isDefault": true },
+      "problemMatcher": ["$go"],
+      "options": { "cwd": "${workspaceFolder}" }
+    },
+    {
+      "label": "coi: run",
+      "type": "shell",
+      "command": "go",
+      "args": ["run", "./cmd/server"],
+      "dependsOn": ["coi: build"],
+      "options": {
+        "cwd": "${workspaceFolder}",
+        "env": {
+          "AIS_TOKEN": "dev-token",
+          "COI_SQL": "data/ern_demo.sql",
+          "COI_DB": "var/coi.db"
+        }
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "coi: test",
+      "type": "shell",
+      "command": "go",
+      "args": ["test", "./...", "-count=1"],
+      "options": { "cwd": "${workspaceFolder}" },
+      "group": { "kind": "test", "isDefault": true },
+      "problemMatcher": ["$go"]
+    },
+    {
+      "label": "coi: test-race",
+      "type": "shell",
+      "command": "go",
+      "args": ["test", "./...", "-race", "-count=1"],
+      "options": { "cwd": "${workspaceFolder}" },
+      "problemMatcher": ["$go"]
+    },
+    {
+      "label": "coi: tidy",
+      "type": "shell",
+      "command": "go",
+      "args": ["mod", "tidy"],
+      "options": { "cwd": "${workspaceFolder}" },
+      "problemMatcher": []
+    },
+    {
+      "label": "coi: clean",
+      "type": "shell",
+      "command": "powershell",
+      "args": [
+        "-NoProfile", "-Command",
+        "Remove-Item -Recurse -Force -ErrorAction SilentlyContinue bin; Remove-Item -Force -ErrorAction SilentlyContinue var/coi.db, var/coi.db-shm, var/coi.db-wal; Write-Host 'cleaned'"
+      ],
+      "options": { "cwd": "${workspaceFolder}" },
+      "problemMatcher": []
+    }
+  ]
+}

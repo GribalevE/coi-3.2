@@ -1,0 +1,12 @@
+{
+  "go.useLanguageServer": true,
+  "go.formatTool": "gofmt",
+  "go.vetOnSave": "package",
+  "editor.formatOnSave": true,
+  "files.eol": "\n",
+  "files.encoding": "utf8",
+  "terminal.integrated.defaultProfile.windows": "PowerShell",
+  "go.toolsEnvVars": {
+    "CGO_ENABLED": "0"
+  }
+}

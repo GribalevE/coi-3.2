@@ -1,0 +1,27 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "COI LDT: run server",
+      "type": "go",
+      "request": "launch",
+      "mode": "auto",
+      "program": "${workspaceFolder}/cmd/server",
+      "cwd": "${workspaceFolder}",
+      "env": {
+        "AIS_TOKEN": "dev-token",
+        "COI_ADDR": ":8080",
+        "COI_SQL": "data/ern_demo.sql",
+        "COI_DB": "var/coi.db",
+        "COI_RULES": "rules_v1.0.0"
+      }
+    },
+    {
+      "name": "COI LDT: run tests (current package)",
+      "type": "go",
+      "request": "launch",
+      "mode": "test",
+      "program": "${fileDirname}"
+    }
+  ]
+}
